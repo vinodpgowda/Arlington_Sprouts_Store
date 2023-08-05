@@ -2,7 +2,7 @@ from neo4j import GraphDatabase, basic_auth
 import csv
 
 
-class DatabaseOperations:
+class NeoClient:
 
     def __init__(self):
         self.driver = None
@@ -53,7 +53,7 @@ class DatabaseOperations:
                         node_properties = {}
 
                         for i in range(len(headerList)):
-                            typed_value = DatabaseOperations.getTypedValue(row[i])
+                            typed_value = NeoClient.getTypedValue(row[i])
                             node_properties[headerList[i]] = typed_value
 
                         query = f"CREATE ({variable}: {label} {{"
@@ -87,7 +87,7 @@ class DatabaseOperations:
 
 def main():
     try:
-        neoClient = DatabaseOperations()
+        neoClient = NeoClient()
 
         # Connect to Neo4j
         neoClient.connectToNeo()
