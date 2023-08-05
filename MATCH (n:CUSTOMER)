@@ -1,0 +1,55 @@
+
+FILENAMES = ["CUSTOMER.csv", "CONTRACT.csv", "EMPLOYEE.csv", "ITEM.csv", "ORDERS.csv", "STORE.csv",
+                          "VENDOR.csv", "VENDOR_ITEM.csv", "ORDER_ITEM.csv", "OLDPRICE.csv"]
+
+
+DELETE SCRIPT:
+
+MATCH (n)
+WHERE n:CUSTOMER OR n:CONTRACT OR n:EMPLOYEE OR n:ITEM OR n:ORDERS OR n:STORE OR n:VENDOR OR n:VENDOR_ITEM OR n:ORDER_ITEM OR n:OLDPRICE
+DETACH DELETE n
+
+
+CREATE RELATIONSHIPS SCRIPT:
+
+
+MATCH (vi:VENDOR_ITEM), (i:ITEM)
+WHERE vi.iId = i.iId
+CREATE (vi)-[sells:SELLS]->(i)
+
+MATCH (vi:VENDOR_ITEM), (v:VENDOR)
+WHERE vi.vId = v.vId
+CREATE (vi)-[found:FOUND]->(v)
+
+MATCH (o:ORDERS), (c:CUSTOMER)
+WHERE o.cId = c.cId
+CREATE (o)-[belongs_to:BELONGS_TO]->(c)
+
+MATCH (oi:ORDER_ITEM), (i:ITEM)
+WHERE oi.iId = i.iId
+CREATE (oi)-[contains:CONTAINS]->(i)
+
+MATCH (oi:ORDER_ITEM), (o:ORDER)
+WHERE oi.oId = o.Id
+CREATE (oi)-[matches:MATCHES]->(o)
+
+MATCH (e:EMPLOYEE), (s:STORE)
+WHERE e.sId = s.sId
+CREATE (e)-[works_at:WORKS_AT]->(s)
+
+MATCH (v:VENDOR), (ct:CONTRACT)
+WHERE v.vId = ct.vId
+CREATE (v)-[has:HAS]->(c)
+
+MATCH (i:ITEM), (op:OLDPRICE)
+WHERE i.iId = op.iId
+CREATE (:ITEM) - [had:HAD] -> (:OLDPRICE)
+
+
+
+QUERIES:
+
+MATCH (c:CUSTOMER)
+WHERE c.Cname STARTS WITH 'E'
+RETURN c.Cname, c.StateAb
+
