@@ -26,13 +26,13 @@ MATCH (o:ORDERS), (c:CUSTOMER)
 WHERE o.cId = c.cId
 CREATE (o)-[belongs_to:BELONGS_TO]->(c)
 
-MATCH (oi:ORDER_ITEM), (i:ITEM)
-WHERE oi.iId = i.iId
-CREATE (oi)-[contains:CONTAINS]->(i)
+MATCH (o:ORDERS), (oi:ORDER_ITEM)
+WHERE o.oId = oi.oId
+CREATE (o)-[contains:CONTAINS]->(oi)
 
-MATCH (oi:ORDER_ITEM), (o:ORDER)
-WHERE oi.oId = o.Id
-CREATE (oi)-[matches:MATCHES]->(o)
+MATCH (oi:ORDER_ITEM),(i:ITEM)
+WHERE oi.iId = i.iId
+CREATE (oi)-[matches:MATCHES]->(i)
 
 MATCH (e:EMPLOYEE), (s:STORE)
 WHERE e.sId = s.sId
