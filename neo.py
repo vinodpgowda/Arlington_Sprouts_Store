@@ -2,7 +2,7 @@ from neo4j import GraphDatabase, basic_auth
 import csv
 
 
-class NeoClient:
+class DatabaseOperations:
 
     def __init__(self):
         self.driver = None
@@ -10,6 +10,12 @@ class NeoClient:
                           "STORE.csv", "VENDOR.csv", "VENDOR_ITEM.csv", "OLDPRICE.csv", "ORDER_ITEM.csv"]
 
     def connectToNeo(self):
+        """
+
+        Connects to Neo4j sandbox
+
+        """
+
         try:
             self.driver = GraphDatabase.driver(
                 "bolt://3.83.228.76:7687",
@@ -20,11 +26,22 @@ class NeoClient:
             print(e)
 
     def closeConnection(self):
+        """
+
+        Disconnects from the Neo4j sandbox
+
+        """
         self.driver.close()
+        print("Disconnected from Neo4j")
 
     @staticmethod
     def getTypedValue(value):
-        # Check the data type of the value and return the value with the corresponding type
+        """
+
+        Check the data type of the value and return the value with the corresponding type
+
+        """
+
         if value.isdigit():
             return int(value)
         try:
@@ -35,9 +52,12 @@ class NeoClient:
 
     def createNodes(self):
         """
+
         This function creates the nodes in Neo4j, by using the data from the csv file
 
         """
+
+        print("Creating nodes!")
         for fileName in self.fileNames:
             label = fileName[:-4]
             variable = label.lower()
@@ -53,41 +73,49 @@ class NeoClient:
                         node_properties = {}
 
                         for i in range(len(headerList)):
-                            typed_value = NeoClient.getTypedValue(row[i])
+                            typed_value = DatabaseOperations.getTypedValue(row[i])
                             node_properties[headerList[i]] = typed_value
 
                         query = f"CREATE ({variable}: {label} {{"
                         properties = ", ".join([f"{key}: ${key}" for key in node_properties.keys()])
                         query += properties + "})"
                         result = session.run(query, node_properties)
-                        print(result)
+        print("Successfully created all the nodes!!")
 
     def createRelationships(self):
+        """
+
+        This function creates the relationships between nodes in Neo4j using static data given by the program.
+
+        """
+
+        print("Creating relationships!")
         with self.driver.session(database="neo4j") as session:
-            queries = ["MATCH (vi:VENDOR_ITEM),(i:ITEM) WHERE vi.iId=i.iId CREATE(vi)-[sells:SELLS]->(i)",
+            queries = [
+                "MATCH (vi:VENDOR_ITEM) WITH vi.vId AS vendorId, vi.iId AS itemId MATCH (v:VENDOR {vId: vendorId}) MATCH (i:ITEM {iId: itemId}) CREATE (v)-[:SELLS]->(i)",
 
-                       "MATCH (vi:VENDOR_ITEM),(v:VENDOR) WHERE vi.vId=v.vId CREATE(vi)-[found:FOUND]->(v)",
+                "MATCH (vi:VENDOR_ITEM),(v:VENDOR) WHERE vi.vId=v.vId CREATE(vi)-[found:FOUND]->(v)",
 
-                       "MATCH (o:ORDERS),(c:CUSTOMER) WHERE o.cId=c.cId CREATE(o)-[belongs_to:BELONGS_TO]->(c)",
+                "MATCH (o:ORDERS),(c:CUSTOMER) WHERE o.cId=c.cId CREATE(o)-[belongs_to:BELONGS_TO]->(c)",
 
-                       "MATCH (o:ORDERS),(oi:ORDER_ITEM) WHERE o.oId=oi.oId CREATE(o)-[contains:CONTAINS]->(oi)",
+                "MATCH (oi:ORDER_ITEM) WITH oi.oId AS orderId, oi.iId AS itemId MATCH (o:ORDERS {oId: orderId}) MATCH (i:ITEM {iId: itemId}) CREATE (o)-[:CONTAINS]->(i)",
 
-                       "MATCH (oi:ORDER_ITEM),(i:ITEM) WHERE oi.iId=i.iId CREATE(oi)-[matches:MATCHES]->(i)",
+                "MATCH (oi:ORDER_ITEM),(i:ITEM) WHERE oi.iId=i.iId CREATE(oi)-[matches:MATCHES]->(i)",
 
-                       "MATCH (e:EMPLOYEE),(s:STORE) WHERE e.sId=s.sId CREATE(e)-[works_at:WORKS_AT]->(s)",
+                "MATCH (e:EMPLOYEE),(s:STORE) WHERE e.sId=s.sId CREATE(e)-[works_at:WORKS_AT]->(s)",
 
-                       "MATCH (v:VENDOR),(ct:CONTRACT) WHERE v.vId=ct.vId CREATE(v)-[has:HAS]->(c)",
+                "MATCH (v:VENDOR),(ct:CONTRACT) WHERE v.vId=ct.vId CREATE(v)-[has:HAS]->(ct)",
 
-                       "MATCH (i:ITEM),(op:OLDPRICE) WHERE i.iId=op.iId CREATE(i)-[had:HAD]->(op)"]
+                "MATCH (i:ITEM),(op:OLDPRICE) WHERE i.iId=op.iId CREATE(i)-[had:HAD]->(op)"]
 
             for query in queries:
                 result = session.run(query)
-                print(result)
+        print("Successfully created all the relationships!!")
 
 
 def main():
     try:
-        neoClient = NeoClient()
+        neoClient = DatabaseOperations()
 
         # Connect to Neo4j
         neoClient.connectToNeo()
@@ -98,11 +126,12 @@ def main():
         # Create relationship
         neoClient.createRelationships()
 
+        # Disconnect to Neo4j
+        neoClient.closeConnection()
+
     except Exception as e:
         print(e)
 
-    finally:
-        neoClient.closeConnection()
 
 
 if __name__ == "__main__":
