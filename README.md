@@ -13,7 +13,10 @@ Arlington Sprouts Store Neo4j Project aims to visualize and interact with data f
     - [**Prerequisites**](#prerequisites)
     - [**Setting up the Environment**](#setting-up-the-environment)
     - [**Running the Program**](#running-the-program)
-  - [**Contribution**](#contribution)
+  - [**Team Member Contributions**](#team-member-contributions)
+    - [**Avinash:**](#avinash)
+    - [**Vinod:**](#vinod)
+  - [**Collaborative Efforts:**](#collaborative-efforts)
   - [**License**](#license)
   - [**Contact**](#contact)
 
@@ -70,13 +73,39 @@ Arlington Sprouts Store Neo4j Project aims to visualize and interact with data f
 
 4. **Follow On-Screen Instructions**: The script will provide prompts to guide you through populating the database and executing the desired queries.
 
-## **Contribution**
+## **Team Member Contributions**
 
-The project was a collaborative effort:
+### **Avinash:**
+1. **Initial Setup and Data Understanding:** 
+   - Was responsible for initially setting up the Neo4j sandbox and the Python environment.
+   - Played a pivotal role in understanding the relationships and structure of the dataset.
+2. **NeoClient Design and Connection Handling:** 
+   - Designed the basic framework of the NeoClient class.
+   - Implemented the connection handling methods.
+3. **Node Creation from CSVs:** 
+   - Took the lead on parsing CSV data and the node creation process.
+4. **Testing and Validation:** 
+   - Focused on writing various MATCH queries to validate that data was entered correctly.
 
-- **[Avinash Mahala]**: Data Parsing, and Node Creation, and Documentation.
-- **[Vinod Kumar Puttamadegowda]**: Worked On The Initial Setup, Cypher Queries and Relationship Mapping 
+### **Vinod:**
+1. **Understanding Relationships:** 
+   - Dug deep into understanding potential relationships among the entities.
+2. **Relationship Creation in Neo4j:** 
+   - Took the lead on implementing the relationship functions.
+3. **Cypher Querying for Part 3:** 
+   - Addressed the queries provided in Part 3 using the Cypher query language.
+4. **Error Handling and Optimization:** 
+   - Worked on optimizing the code and implemented error handling.
+5. **Documentation and Reporting:** 
+   - Played a major role in maintaining detailed documentation throughout the project.
 
+## **Collaborative Efforts:**
+1. **Joint Brainstorming Sessions:** Both initiated the project with brainstorming sessions, ensuring a unified vision.
+2. **Code Pairing:** Practiced pair programming, ensuring cleaner code and knowledge exchange.
+3. **Database Design and Integration:** Worked collaboratively on schema design and ensured seamless integration.
+4. **Debugging Sessions:** Addressed bugs in tandem, squashing them efficiently.
+5. **Documentation and Reporting:** Collaborated to ensure comprehensive documentation.
+6. **Feedback & Iterative Improvement:** Maintained open feedback channels, ensuring continual evolution of the project.
 ## **License**
 
 This project is licensed under the MIT License. For more details, see `LICENSE.md`.
