@@ -32,7 +32,7 @@ Arlington Sprouts Store Neo4j Project aims to visualize and interact with data f
 
 - `main.py`: The entry point of the application. Initiates the conversion process and the interaction with Neo4j.
 - `/SproutsData`: Directory containing the CSV files with the Arlington Sprouts Store data.
-- `queries.cypher`: Directory storing various Cypher query files.
+- `queries.cypher`: File storing various Cypher queries.
 
 ## **Getting Started**
 
