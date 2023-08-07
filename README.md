@@ -44,10 +44,7 @@ Arlington Sprouts Store Neo4j Project aims to visualize and interact with data f
 
 ### **Setting up the Environment**
 
-1. **Clone the Repository**: Obtain a local copy of the project:
-   ```bash
-   git clone [repository_url]
-   ```
+1. **Download the Repository**: Obtain a local copy of the project:
 
 2. **Navigate to the Project Directory**:
    ```bash
