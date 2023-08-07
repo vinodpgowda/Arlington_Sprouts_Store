@@ -18,8 +18,8 @@ class NeoClient:
 
         try:
             self.driver = GraphDatabase.driver(
-                "bolt://3.83.228.76:7687",
-                auth=basic_auth("neo4j", "quarter-comfort-oscillations"))
+                "bolt://44.192.122.40:7687",
+                auth=basic_auth("neo4j", "thanks-medicines-forks"))
             print("Connected to Neo4j")
 
         except Exception as e:
