@@ -31,7 +31,6 @@ Arlington Sprouts Store Neo4j Project aims to visualize and interact with data f
 ## **Project Structure**
 
 - `main.py`: The entry point of the application. Initiates the conversion process and the interaction with Neo4j.
-- `NeoClient.py`: Contains the main class for database operations, including node creation and relationship mapping.
 - `/SproutsData`: Directory containing the CSV files with the Arlington Sprouts Store data.
 - `queries/`: Directory storing various Cypher query files.
 
