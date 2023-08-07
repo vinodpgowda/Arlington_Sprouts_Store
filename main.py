@@ -121,7 +121,7 @@ def main():
         neoClient.connectToNeo()
 
         # Create Nodes
-        # neoClient.createNodes()
+        neoClient.createNodes()
 
         # Create relationship
         neoClient.createRelationships()
